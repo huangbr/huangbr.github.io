@@ -4,19 +4,23 @@
   
   
   <entry>
-    <title>testblog</title>
-    <link href="/2025/02/18/testblog/"/>
-    <url>/2025/02/18/testblog/</url>
+    <title>我是谁</title>
+    <link href="/2025/02/19/%E6%88%91%E6%98%AF%E8%B0%81/"/>
+    <url>/2025/02/19/%E6%88%91%E6%98%AF%E8%B0%81/</url>
     
-    <content type="html"><![CDATA[<p>文字测试：6666</p><p>代码测试：<code> dawdawdadddddddddddddddsdawd</code> </p><p>图片测试</p><img src="/2025/02/18/testblog/image-20250218103402196.png" class="" title="image-20250218103402196"><style>.nvpcwgnquvyc{zoom:30%;}</style><img src="/2025/02/18/testblog/image-20250218103422123.png" class="nvpcwgnquvyc" alt="image-20250218103422123">]]></content>
+    <content type="html"><![CDATA[<p>2025-02-19<br>此刻，我还是一个后端菜鸟。对个人博客心心念念很久了，终于搭建起来，我会在这里记录学习的过程，分享思考，分享技术。人生就是一场马拉松，一时一刻的成败得失其实并不那么重要，在这个过程中需要不断形成自己的方法论，不盲目追求，不刻意攀比，聚焦目标，长期坚持。</p>]]></content>
     
+    
+    <categories>
+      
+      <category>感悟</category>
+      
+    </categories>
     
     
     <tags>
       
-      <tag>标签1</tag>
-      
-      <tag>Java</tag>
+      <tag>个人</tag>
       
     </tags>
     
@@ -32,6 +36,12 @@
     <content type="html"><![CDATA[<p>代码测试： </p><p><code>py print(&quot;Hellos&quot;) </code> 注意：这里因为我放在md文件中的.</p><p>图片测试： <img src="http://gitee.com/HAcode/img_bed/raw/master/img/202502171011352.png" alt="image-20250217101126317"></p><p><img src="http://gitee.com/HAcode/img_bed/raw/master/img/202502171840570.png" alt="2"></p><p><img src="https://fluid.s3.bitiful.net/bg/vdysjx.png"></p><p>引用测试： 这是一条引用 </p><h1 id="d"><a href="#d" class="headerlink" title="d"></a>d</h1><h2 id="d-1"><a href="#d-1" class="headerlink" title="d"></a>d</h2><h3 id="d-2"><a href="#d-2" class="headerlink" title="d"></a>d</h3><h4 id="d-3"><a href="#d-3" class="headerlink" title="d"></a>d</h4>]]></content>
     
     
+    <categories>
+      
+      <category>web前端</category>
+      
+    </categories>
+    
     
     <tags>
       
@@ -40,19 +50,6 @@
       <tag>Python</tag>
       
     </tags>
-    
-  </entry>
-  
-  
-  
-  <entry>
-    <title>Hello World</title>
-    <link href="/2025/02/16/hello-world/"/>
-    <url>/2025/02/16/hello-world/</url>
-    
-    <content type="html"><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p><h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ hexo new <span class="hljs-string">&quot;My New Post&quot;</span><br></code></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p><h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ hexo server<br></code></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p><h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ hexo generate<br></code></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p><h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ hexo deploy<br></code></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>]]></content>
-    
-    
     
   </entry>
   
