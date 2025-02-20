@@ -21,24 +21,26 @@
   <meta name="author" content="huangbr">
   <meta name="keywords" content="">
   
-    <meta name="description" content="2025-02-19此刻，我还是一个后端菜鸟。对个人博客心心念念很久了，终于搭建起来，我会在这里记录学习的过程，分享思考，分享技术。人生就是一场马拉松，一时一刻的成败得失其实并不那么重要，在这个过程中需要不断形成自己的方法论，不盲目追求，不刻意攀比，聚焦目标，长期坚持。">
+    <meta name="description" content="Java集合框架（Java Collections Framework）是Java中非常重要的一个部分，它提供了一系列接口和类来存储、操作和管理数据集合。    1. Collection接口Collection 是所有集合类的根接口，定义了集合的基本操作。 常用方法： 添加元素 ：   boolean add(E e)：向集合中添加一个元素。 boolean addAll(Collection&amp;">
 <meta property="og:type" content="article">
-<meta property="og:title" content="我是谁">
-<meta property="og:url" content="http://example.com/2025/02/19/%E6%88%91%E6%98%AF%E8%B0%81/index.html">
+<meta property="og:title" content="Java语法|Java集合的常用API">
+<meta property="og:url" content="http://example.com/2025/02/20/Java%E8%AF%AD%E6%B3%95-Java%E9%9B%86%E5%90%88%E7%9A%84%E5%B8%B8%E7%94%A8API/index.html">
 <meta property="og:site_name" content="堆栈空间">
-<meta property="og:description" content="2025-02-19此刻，我还是一个后端菜鸟。对个人博客心心念念很久了，终于搭建起来，我会在这里记录学习的过程，分享思考，分享技术。人生就是一场马拉松，一时一刻的成败得失其实并不那么重要，在这个过程中需要不断形成自己的方法论，不盲目追求，不刻意攀比，聚焦目标，长期坚持。">
+<meta property="og:description" content="Java集合框架（Java Collections Framework）是Java中非常重要的一个部分，它提供了一系列接口和类来存储、操作和管理数据集合。    1. Collection接口Collection 是所有集合类的根接口，定义了集合的基本操作。 常用方法： 添加元素 ：   boolean add(E e)：向集合中添加一个元素。 boolean addAll(Collection&amp;">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2025-02-19T06:48:34.000Z">
-<meta property="article:modified_time" content="2025-02-19T07:31:15.292Z">
+<meta property="og:image" content="http://example.com/2025/02/20/Java%E8%AF%AD%E6%B3%95-Java%E9%9B%86%E5%90%88%E7%9A%84%E5%B8%B8%E7%94%A8API/1740042747300-755501be-7e3d-49dc-9f55-c594818d1e19.png">
+<meta property="article:published_time" content="2025-02-20T09:16:14.000Z">
+<meta property="article:modified_time" content="2025-02-20T09:19:54.259Z">
 <meta property="article:author" content="huangbr">
-<meta property="article:tag" content="个人">
+<meta property="article:tag" content="集合">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://example.com/2025/02/20/Java%E8%AF%AD%E6%B3%95-Java%E9%9B%86%E5%90%88%E7%9A%84%E5%B8%B8%E7%94%A8API/1740042747300-755501be-7e3d-49dc-9f55-c594818d1e19.png">
   
   
     <meta name="referrer" content="no-referrer-when-downgrade">
   
   
-  <title>我是谁 - 堆栈空间</title>
+  <title>Java语法|Java集合的常用API - 堆栈空间</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -231,7 +233,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="我是谁"></span>
+            <span id="subtitle" data-typed-text="Java语法|Java集合的常用API"></span>
           
         </div>
 
@@ -247,8 +249,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2025-02-19 14:48" pubdate>
-           2025 年 02 月 19 日 , 下午 02:48 , 星期三
+        <time datetime="2025-02-20 17:16" pubdate>
+           2025 年 02 月 20 日 , 下午 05:16 , 星期四
         </time>
       </span>
     
@@ -260,7 +262,7 @@
         <i class="iconfont icon-chart"></i>
         
           <!-- compatible with older versions-->
-          114 字
+          1.5k 字
         
       </span>
     
@@ -272,7 +274,7 @@
         
         
           <!-- compatible with older versions-->
-          1 分钟
+          13 分钟
         
       </span>
     
@@ -309,12 +311,219 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">我是谁</h1>
+            <h1 id="seo-header">Java语法|Java集合的常用API</h1>
             
             
               <div class="markdown-body">
                 
-                <p>2025-02-19<br>此刻，我还是一个后端菜鸟。对个人博客心心念念很久了，终于搭建起来，我会在这里记录学习的过程，分享思考，分享技术。人生就是一场马拉松，一时一刻的成败得失其实并不那么重要，在这个过程中需要不断形成自己的方法论，不盲目追求，不刻意攀比，聚焦目标，长期坚持。</p>
+                <p>Java集合框架（Java Collections Framework）是Java中非常重要的一个部分，它提供了一系列接口和类来存储、操作和管理数据集合。</p>
+<img src="/2025/02/20/Java%E8%AF%AD%E6%B3%95-Java%E9%9B%86%E5%90%88%E7%9A%84%E5%B8%B8%E7%94%A8API/1740042747300-755501be-7e3d-49dc-9f55-c594818d1e19.png" srcset="/img/loading.gif" lazyload class="" title="img">
+
+<hr>
+<h2 id="1-Collection接口"><a href="#1-Collection接口" class="headerlink" title="1. Collection接口"></a>1. Collection接口</h2><p><code>Collection</code> 是所有集合类的根接口，定义了集合的基本操作。</p>
+<h3 id="常用方法："><a href="#常用方法：" class="headerlink" title="常用方法："></a>常用方法：</h3><ul>
+<li><p>添加元素 ：</p>
+</li>
+<li><ul>
+<li><code>boolean add(E e)</code>：向集合中添加一个元素。</li>
+<li><code>boolean addAll(Collection&lt;? extends E&gt; c)</code>：将指定集合中的所有元素添加到当前集合中。</li>
+</ul>
+</li>
+<li><p>删除元素 ：</p>
+</li>
+<li><ul>
+<li><code>boolean remove(Object o)</code>：从集合中移除指定元素。</li>
+<li><code>boolean removeAll(Collection&lt;?&gt; c)</code>：移除当前集合中包含在指定集合中的所有元素。</li>
+<li><code>boolean retainAll(Collection&lt;?&gt; c)</code>：仅保留当前集合中包含在指定集合中的元素。</li>
+<li><code>void clear()</code>：清空集合中的所有元素。</li>
+</ul>
+</li>
+<li><p>查询操作 ：</p>
+</li>
+<li><ul>
+<li><code>int size()</code>：返回集合中元素的数量。</li>
+<li><code>boolean isEmpty()</code>：判断集合是否为空。</li>
+<li><code>boolean contains(Object o)</code>：判断集合是否包含指定元素。</li>
+<li><code>boolean containsAll(Collection&lt;?&gt; c)</code>：判断集合是否包含指定集合中的所有元素。</li>
+</ul>
+</li>
+<li><p>迭代器 ：</p>
+</li>
+<li><ul>
+<li><code>Iterator&lt;E&gt; iterator()</code>：返回一个用于遍历集合的迭代器。</li>
+</ul>
+</li>
+<li><p>转换为数组 ：</p>
+</li>
+<li><ul>
+<li><code>Object[] toArray()</code>：将集合转换为数组。</li>
+<li><code>&lt;T&gt; T[] toArray(T[] a)</code>：将集合转换为指定类型的数组。</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h2 id="2-List接口"><a href="#2-List接口" class="headerlink" title="2. List接口"></a>2. List接口</h2><p><code>List</code> 是一个有序的集合，允许重复元素，并可以通过索引访问元素。</p>
+<h3 id="常用实现类："><a href="#常用实现类：" class="headerlink" title="常用实现类："></a>常用实现类：</h3><ul>
+<li><code>ArrayList</code></li>
+<li><code>LinkedList</code></li>
+<li><code>Vector</code></li>
+</ul>
+<h3 id="常用方法：-1"><a href="#常用方法：-1" class="headerlink" title="常用方法："></a>常用方法：</h3><ul>
+<li><p>按索引操作 ：</p>
+</li>
+<li><ul>
+<li><code>E get(int index)</code>：返回指定索引处的元素。</li>
+<li><code>E set(int index, E element)</code>：替换指定索引处的元素，并返回旧值。</li>
+<li><code>void add(int index, E element)</code>：在指定索引处插入元素。</li>
+<li><code>E remove(int index)</code>：移除指定索引处的元素，并返回被移除的元素。</li>
+</ul>
+</li>
+<li><p>子列表 ：</p>
+</li>
+<li><ul>
+<li><code>List&lt;E&gt; subList(int fromIndex, int toIndex)</code>：返回从<code>fromIndex</code>到<code>toIndex-1</code>范围内的子列表。</li>
+</ul>
+</li>
+<li><p>排序 ：</p>
+</li>
+<li><ul>
+<li><code>default void sort(Comparator&lt;? super E&gt; c)</code>：对列表进行排序（Java 8新增）。</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h2 id="3-Set接口"><a href="#3-Set接口" class="headerlink" title="3. Set接口"></a>3. Set接口</h2><p><code>Set</code> 是一个不允许重复元素的集合。</p>
+<h3 id="常用实现类：-1"><a href="#常用实现类：-1" class="headerlink" title="常用实现类："></a>常用实现类：</h3><ul>
+<li><code>HashSet</code>：无序且不保证顺序。</li>
+<li><code>LinkedHashSet</code>：维护插入顺序。</li>
+<li><code>TreeSet</code>：按自然顺序或自定义顺序排序。</li>
+</ul>
+<h3 id="常用方法：-2"><a href="#常用方法：-2" class="headerlink" title="常用方法："></a>常用方法：</h3><ul>
+<li>继承自<code>Collection</code>接口的所有方法（如<code>add</code>、<code>remove</code>、<code>contains</code>等）。</li>
+<li>注意：由于<code>Set</code>不允许重复元素，因此<code>add</code>方法在添加重复元素时会返回<code>false</code>。</li>
+</ul>
+<hr>
+<h2 id="4-Map接口"><a href="#4-Map接口" class="headerlink" title="4. Map接口"></a>4. Map接口</h2><p><code>Map</code> 是一个键值对集合，键不允许重复，但值可以重复。</p>
+<h3 id="常用实现类：-2"><a href="#常用实现类：-2" class="headerlink" title="常用实现类："></a>常用实现类：</h3><ul>
+<li><code>HashMap</code>：无序且不保证顺序。</li>
+<li><code>LinkedHashMap</code>：维护插入顺序。</li>
+<li><code>TreeMap</code>：按键的自然顺序或自定义顺序排序。</li>
+</ul>
+<h3 id="常用方法：-3"><a href="#常用方法：-3" class="headerlink" title="常用方法："></a>常用方法：</h3><ul>
+<li><p>添加&#x2F;修改 ：</p>
+</li>
+<li><ul>
+<li><code>V put(K key, V value)</code>：将指定键值对放入映射中。如果键已存在，则覆盖旧值并返回旧值。</li>
+<li><code>void putAll(Map&lt;? extends K, ? extends V&gt; m)</code>：将指定映射中的所有键值对复制到当前映射中。</li>
+</ul>
+</li>
+<li><p>删除 ：</p>
+</li>
+<li><ul>
+<li><code>V remove(Object key)</code>：移除指定键的映射关系，并返回对应的值。</li>
+<li><code>void clear()</code>：清空映射中的所有键值对。</li>
+</ul>
+</li>
+<li><p>查询 ：</p>
+</li>
+<li><ul>
+<li><code>V get(Object key)</code>：返回指定键所映射的值，如果键不存在则返回<code>null</code>。</li>
+<li><code>boolean containsKey(Object key)</code>：判断映射中是否包含指定键。</li>
+<li><code>boolean containsValue(Object value)</code>：判断映射中是否包含指定值。</li>
+<li><code>int size()</code>：返回映射中键值对的数量。</li>
+<li><code>boolean isEmpty()</code>：判断映射是否为空。</li>
+</ul>
+</li>
+<li><p>视图操作 ：</p>
+</li>
+<li><ul>
+<li><code>Set&lt;K&gt; keySet()</code>：返回映射中所有键的集合。</li>
+<li><code>Collection&lt;V&gt; values()</code>：返回映射中所有值的集合。</li>
+<li><code>Set&lt;Map.Entry&lt;K,V&gt;&gt; entrySet()</code>：返回映射中所有键值对的集合。</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h2 id="5-Queue接口"><a href="#5-Queue接口" class="headerlink" title="5. Queue接口"></a>5. Queue接口</h2><p><code>Queue</code> 是一个队列集合，通常用于实现先进先出（FIFO）的操作。</p>
+<h3 id="常用实现类：-3"><a href="#常用实现类：-3" class="headerlink" title="常用实现类："></a>常用实现类：</h3><ul>
+<li><code>LinkedList</code>：双端队列。</li>
+<li><code>PriorityQueue</code>：优先级队列。</li>
+</ul>
+<h3 id="常用方法：-4"><a href="#常用方法：-4" class="headerlink" title="常用方法："></a>常用方法：</h3><ul>
+<li><p>入队与出队 ：</p>
+</li>
+<li><ul>
+<li><code>boolean offer(E e)</code>：将指定元素插入队列（如果队列满则返回<code>false</code>）。</li>
+<li><code>E poll()</code>：获取并移除队列头部的元素（如果队列为空则返回<code>null</code>）。</li>
+<li><code>E remove()</code>：获取并移除队列头部的元素（如果队列为空则抛出异常）。</li>
+<li><code>E peek()</code>：获取但不移除队列头部的元素（如果队列为空则返回<code>null</code>）。</li>
+<li><code>E element()</code>：获取但不移除队列头部的元素（如果队列为空则抛出异常）。</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h2 id="6-Iterator接口"><a href="#6-Iterator接口" class="headerlink" title="6. Iterator接口"></a>6. Iterator接口</h2><p><code>Iterator</code> 是用于遍历集合的工具。</p>
+<h3 id="常用方法：-5"><a href="#常用方法：-5" class="headerlink" title="常用方法："></a>常用方法：</h3><ul>
+<li><code>boolean hasNext()</code>：判断是否还有下一个元素。</li>
+<li><code>E next()</code>：返回下一个元素。</li>
+<li><code>void remove()</code>：移除当前元素（需在调用<code>next()</code>之后调用）。</li>
+</ul>
+<hr>
+<h2 id="7-Stream-API（Java-8新增）"><a href="#7-Stream-API（Java-8新增）" class="headerlink" title="7. Stream API（Java 8新增）"></a>7. Stream API（Java 8新增）</h2><p><code>Stream</code> 是一种用于处理集合数据的功能强大的工具。</p>
+<h3 id="常用方法：-6"><a href="#常用方法：-6" class="headerlink" title="常用方法："></a>常用方法：</h3><ul>
+<li><p>中间操作 ：</p>
+</li>
+<li><ul>
+<li><code>filter(Predicate&lt;T&gt; predicate)</code>：过滤满足条件的元素。</li>
+<li><code>map(Function&lt;T, R&gt; mapper)</code>：将元素映射为另一种形式。</li>
+<li><code>sorted()</code>：对元素进行排序。</li>
+<li><code>distinct()</code>：去重。</li>
+</ul>
+</li>
+<li><p>终端操作 ：</p>
+</li>
+<li><ul>
+<li><code>forEach(Consumer&lt;T&gt; action)</code>：对每个元素执行操作。</li>
+<li><code>collect(Collector&lt;T, A, R&gt; collector)</code>：将流中的元素收集到集合中。</li>
+<li><code>count()</code>：返回元素数量。</li>
+<li><code>anyMatch(Predicate&lt;T&gt; predicate)</code>：判断是否有任意一个元素满足条件。</li>
+<li><code>allMatch(Predicate&lt;T&gt; predicate)</code>：判断是否所有元素都满足条件。</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h2 id="8-工具类：Collections"><a href="#8-工具类：Collections" class="headerlink" title="8. 工具类：Collections"></a>8. 工具类：Collections</h2><p><code>Collections</code> 是一个工具类，提供了许多静态方法来操作集合。</p>
+<h3 id="常用方法：-7"><a href="#常用方法：-7" class="headerlink" title="常用方法："></a>常用方法：</h3><ul>
+<li><p>排序 ：</p>
+</li>
+<li><ul>
+<li><code>static &lt;T extends Comparable&lt;? super T&gt;&gt; void sort(List&lt;T&gt; list)</code>：对列表进行自然排序。</li>
+<li><code>static &lt;T&gt; void sort(List&lt;T&gt; list, Comparator&lt;? super T&gt; c)</code>：根据指定比较器对列表进行排序。</li>
+</ul>
+</li>
+<li><p>查找与替换 ：</p>
+</li>
+<li><ul>
+<li><code>static &lt;T&gt; int binarySearch(List&lt;? extends Comparable&lt;? super T&gt;&gt; list, T key)</code>：二分查找。</li>
+<li><code>static &lt;T&gt; void fill(List&lt;? super T&gt; list, T obj)</code>：用指定元素填充列表。</li>
+<li><code>static &lt;T&gt; boolean replaceAll(List&lt;T&gt; list, T oldVal, T newVal)</code>：替换列表中的指定元素。</li>
+</ul>
+</li>
+<li><p>同步控制 ：</p>
+</li>
+<li><ul>
+<li><code>static &lt;T&gt; List&lt;T&gt; synchronizedList(List&lt;T&gt; list)</code>：返回线程安全的列表。</li>
+<li><code>static &lt;K, V&gt; Map&lt;K, V&gt; synchronizedMap(Map&lt;K, V&gt; m)</code>：返回线程安全的映射。</li>
+</ul>
+</li>
+<li><p>不可变集合 ：</p>
+</li>
+<li><ul>
+<li><code>static &lt;T&gt; List&lt;T&gt; unmodifiableList(List&lt;? extends T&gt; list)</code>：返回不可修改的列表。</li>
+<li><code>static &lt;K, V&gt; Map&lt;K, V&gt; unmodifiableMap(Map&lt;? extends K, ? extends V&gt; m)</code>：返回不可修改的映射。</li>
+</ul>
+</li>
+</ul>
 
                 
               </div>
@@ -333,7 +542,7 @@
     
       <span class="category-chain">
         
-  <a href="/categories/%E6%84%9F%E6%82%9F/" class="category-chain-item">感悟</a>
+  <a href="/categories/Java%E5%9F%BA%E7%A1%80/" class="category-chain-item">Java基础</a>
   
   
 
@@ -348,7 +557,7 @@
     <div class="post-meta">
       <i class="iconfont icon-tags"></i>
       
-        <a href="/tags/%E4%B8%AA%E4%BA%BA/" class="print-no-link">#个人</a>
+        <a href="/tags/%E9%9B%86%E5%90%88/" class="print-no-link">#集合</a>
       
     </div>
   
@@ -360,8 +569,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>我是谁</div>
-      <div>http://example.com/2025/02/19/我是谁/</div>
+      <div>Java语法|Java集合的常用API</div>
+      <div>http://example.com/2025/02/20/Java语法-Java集合的常用API/</div>
     </div>
     <div class="license-meta">
       
@@ -373,7 +582,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2025年2月19日</div>
+          <div>2025年2月20日</div>
         </div>
       
       
@@ -405,15 +614,15 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2025/02/20/Java%E8%AF%AD%E6%B3%95-Java%E9%9B%86%E5%90%88%E7%9A%84%E5%B8%B8%E7%94%A8API/" title="Java语法|Java集合的常用API">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">Java语法|Java集合的常用API</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
+                    
+                      <a href="/2025/02/19/%E6%88%91%E6%98%AF%E8%B0%81/" title="我是谁">
+                        <span class="hidden-mobile">我是谁</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
                     
                   </article>
                 </div>
