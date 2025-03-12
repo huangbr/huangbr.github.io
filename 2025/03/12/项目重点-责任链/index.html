@@ -21,15 +21,15 @@
   <meta name="author" content="huangbr">
   <meta name="keywords" content="">
   
-    <meta name="description" content="切量和降级是系统设计中常见的两种策略，主要用于应对高并发、系统过载或部分功能异常的场景。 切量是一种流量控制策略，指在系统面临高负载或部分服务不可用时，通过限制进入系统的请求量来保护系统。 降级是指在系统资源不足或部分功能异常时，暂时关闭或简化某些非核心功能，以确保核心功能的正常运行。 逻辑实现Tip：下述代码只传达设计思想，并不关注代理类等具体细节情况。 1.自定义注解创建自定义注解，在需要动态">
+    <meta name="description" content="在拼团商城中，需要通过责任链来定义交易规则。 1、责任链和规则树的区别   责任链：处理者之间通过单向引用形成一条链，每个处理者只关心自己的逻辑，处理完成后决定是否继续传递请求。    订单校验 ：在一个电商系统中，用户下单前需要进行多步校验（如库存检查[链节点1]、权限验证[链节点2]、支付方式验证[链节点3]等），这些校验可以通过责任链实现。    规则树：是一种基于树形结构的设计模式，用于表">
 <meta property="og:type" content="article">
-<meta property="og:title" content="项目重点-基于Redis实现具有降级+切量功能的动态配置中心">
-<meta property="og:url" content="http://example.com/2025/03/07/%E9%A1%B9%E7%9B%AE%E9%87%8D%E7%82%B9-%E5%9F%BA%E4%BA%8ERedis%E5%AE%9E%E7%8E%B0%E5%85%B7%E6%9C%89%E9%99%8D%E7%BA%A7-%E5%88%87%E9%87%8F%E5%8A%9F%E8%83%BD%E7%9A%84%E5%8A%A8%E6%80%81%E9%85%8D%E7%BD%AE%E4%B8%AD%E5%BF%83/index.html">
+<meta property="og:title" content="项目重点-责任链">
+<meta property="og:url" content="http://example.com/2025/03/12/%E9%A1%B9%E7%9B%AE%E9%87%8D%E7%82%B9-%E8%B4%A3%E4%BB%BB%E9%93%BE/index.html">
 <meta property="og:site_name" content="堆栈空间">
-<meta property="og:description" content="切量和降级是系统设计中常见的两种策略，主要用于应对高并发、系统过载或部分功能异常的场景。 切量是一种流量控制策略，指在系统面临高负载或部分服务不可用时，通过限制进入系统的请求量来保护系统。 降级是指在系统资源不足或部分功能异常时，暂时关闭或简化某些非核心功能，以确保核心功能的正常运行。 逻辑实现Tip：下述代码只传达设计思想，并不关注代理类等具体细节情况。 1.自定义注解创建自定义注解，在需要动态">
+<meta property="og:description" content="在拼团商城中，需要通过责任链来定义交易规则。 1、责任链和规则树的区别   责任链：处理者之间通过单向引用形成一条链，每个处理者只关心自己的逻辑，处理完成后决定是否继续传递请求。    订单校验 ：在一个电商系统中，用户下单前需要进行多步校验（如库存检查[链节点1]、权限验证[链节点2]、支付方式验证[链节点3]等），这些校验可以通过责任链实现。    规则树：是一种基于树形结构的设计模式，用于表">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2025-03-07T07:23:10.000Z">
-<meta property="article:modified_time" content="2025-03-07T08:10:39.252Z">
+<meta property="article:published_time" content="2025-03-12T08:35:15.000Z">
+<meta property="article:modified_time" content="2025-03-12T08:45:51.963Z">
 <meta property="article:author" content="huangbr">
 <meta property="article:tag" content="拼团商城">
 <meta name="twitter:card" content="summary_large_image">
@@ -38,7 +38,7 @@
     <meta name="referrer" content="no-referrer-when-downgrade">
   
   
-  <title>项目重点-基于Redis实现具有降级+切量功能的动态配置中心 - 堆栈空间</title>
+  <title>项目重点-责任链 - 堆栈空间</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -231,7 +231,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="项目重点-基于Redis实现具有降级+切量功能的动态配置中心"></span>
+            <span id="subtitle" data-typed-text="项目重点-责任链"></span>
           
         </div>
 
@@ -247,8 +247,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2025-03-07 15:23" pubdate>
-           2025 年 03 月 07 日 , 下午 03:23 , 星期五
+        <time datetime="2025-03-12 16:35" pubdate>
+           2025 年 03 月 12 日 , 下午 04:35 , 星期三
         </time>
       </span>
     
@@ -260,7 +260,7 @@
         <i class="iconfont icon-chart"></i>
         
           <!-- compatible with older versions-->
-          535 字
+          957 字
         
       </span>
     
@@ -272,7 +272,7 @@
         
         
           <!-- compatible with older versions-->
-          5 分钟
+          8 分钟
         
       </span>
     
@@ -309,32 +309,58 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">项目重点-基于Redis实现具有降级+切量功能的动态配置中心</h1>
+            <h1 id="seo-header">项目重点-责任链</h1>
             
             
               <div class="markdown-body">
                 
-                <p><strong>切量</strong>和<strong>降级</strong>是系统设计中常见的两种策略，主要用于应对高并发、系统过载或部分功能异常的场景。</p>
-<p>切量是一种流量控制策略，指在系统面临高负载或部分服务不可用时，通过限制进入系统的请求量来保护系统。</p>
-<p>降级是指在系统资源不足或部分功能异常时，暂时关闭或简化某些非核心功能，以确保核心功能的正常运行。</p>
-<h3 id="逻辑实现"><a href="#逻辑实现" class="headerlink" title="逻辑实现"></a>逻辑实现</h3><p>Tip：下述代码只传达设计思想，并不关注代理类等具体细节情况。</p>
-<h4 id="1-自定义注解"><a href="#1-自定义注解" class="headerlink" title="1.自定义注解"></a>1.自定义注解</h4><p>创建自定义注解，在需要动态配置的属性上应用此标。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><code class="hljs Java"><span class="hljs-meta">@Retention(RetentionPolicy.RUNTIME)</span>  <span class="hljs-comment">// 运行时注解</span><br><span class="hljs-meta">@Target(ElementType.FIELD)</span> <span class="hljs-comment">// 只能作用在属性上</span><br><span class="hljs-meta">@Documented</span><br><span class="hljs-keyword">public</span> <span class="hljs-meta">@interface</span> DCCValue &#123;<br>    String <span class="hljs-title function_">value</span><span class="hljs-params">()</span> <span class="hljs-keyword">default</span>  <span class="hljs-string">&quot;&quot;</span>;<br>&#125;<br>------------------------------------------------------------------------------<br>------------------------------------------------------------------------------<br><span class="hljs-meta">@Service</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">DCCService</span> &#123;<br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 降级开关：0关闭，1开启</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-meta">@DCCValue(&quot;downgradeSwitch:0&quot;)</span><br>    <span class="hljs-keyword">private</span> String downgradeSwitch;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 切量比率：允许cutRange%的流量通过</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-meta">@DCCValue(&quot;cutRange:100&quot;)</span><br>    <span class="hljs-keyword">private</span> String cutRange;<br>&#125;<br></code></pre></td></tr></table></figure>
-
-<h4 id="2-Redisson发布与订阅"><a href="#2-Redisson发布与订阅" class="headerlink" title="2.Redisson发布与订阅"></a>2.Redisson发布与订阅</h4><p>用Redisson的发布订阅机制，发布者动态发布降级与切量的配置信息，订阅者接受配置信息，实现类似MQ的功能。</p>
+                <p>在拼团商城中，需要通过责任链来定义交易规则。</p>
+<h1>1、责任链和规则树的区别</h1>
 <ul>
-<li>订阅者： 解析消息内容，写入Redis，获取目标Bean并动态设置字段值。</li>
-</ul>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><code class="hljs Java"><span class="hljs-meta">@Bean(&quot;dccTopic&quot;)</span><br><span class="hljs-keyword">public</span> RTopic <span class="hljs-title function_">dccRedisTopicListener</span><span class="hljs-params">(RedissonClient redissonClient)</span> &#123;<br>    <span class="hljs-comment">// 订阅主题</span><br>    <span class="hljs-type">RTopic</span> <span class="hljs-variable">dccTopic</span> <span class="hljs-operator">=</span> redissonClient.getTopic(<span class="hljs-string">&quot;XXX&quot;</span>);<br>    <span class="hljs-comment">// 添加监听器</span><br>    dccTopic.addListener(String.class, (channel, message) -&gt; &#123;<br>        <span class="hljs-comment">// 解析消息内容</span><br>        <span class="hljs-type">String</span> <span class="hljs-variable">key</span> <span class="hljs-operator">=</span> getKey(message);<br>        <span class="hljs-type">String</span> <span class="hljs-variable">value</span> <span class="hljs-operator">=</span> getValue(message);<br><br>        <span class="hljs-comment">// 写入Redis</span><br>        RBucket&lt;String&gt; bucket = redissonClient.getBucket(key);<br>        bucket.set(value);<br><br>        <span class="hljs-comment">// 获取目标Bean并动态设置字段值</span><br>        <span class="hljs-type">Object</span> <span class="hljs-variable">objBean</span> <span class="hljs-operator">=</span> dccObjGroup.get(key);<br>        <span class="hljs-type">Field</span> <span class="hljs-variable">field</span> <span class="hljs-operator">=</span> objBean.getClass().getDeclaredField(field);<br>        field.setAccessible(<span class="hljs-literal">true</span>);<br>        field.set(objBean, value); <span class="hljs-comment">// 设置objBean对象的key属性值为value</span><br>    &#125;);<br>    <span class="hljs-keyword">return</span> dccTopic;<br>&#125;<br></code></pre></td></tr></table></figure>
-
-<h4 id="3-动态配置管理的工厂"><a href="#3-动态配置管理的工厂" class="headerlink" title="3. 动态配置管理的工厂"></a>3. 动态配置管理的工厂</h4><p>DCCValueBeanFactory继承了BeanPostProcessor，重写的postProcessAfterInitialization方法会在每次启动程序后对已经完成初始化的Bean进行<strong>后置处理</strong>。</p>
-<p>后置处理：</p>
+<li>
+<p>责任链：处理者之间通过单向引用形成一条链，每个处理者只关心自己的逻辑，处理完成后决定是否继续传递请求。</p>
+</li>
+<li>
 <ul>
-<li>找到具有@DCCValue注解的bean对象</li>
-<li>解析注解上默认的key:value</li>
-<li>对Redis判断key是否存在，不存在则创建，存在则获取被订阅者写入的最新值</li>
-<li>通过反射把最新value值写入此bean对象</li>
+<li><strong>订单校验</strong> ：在一个电商系统中，用户下单前需要进行多步校验（如库存检查[链节点1]、权限验证[链节点2]、支付方式验证[链节点3]等），这些校验可以通过责任链实现。</li>
 </ul>
+</li>
+<li>
+<p>规则树：是一种基于树形结构的设计模式，用于表达复杂的条件判断逻辑，每个节点表示一个条件判断，叶子节点表示最终的处理结果。</p>
+</li>
+<li>
+<ul>
+<li><strong>例子</strong>：用户发起拼团请求，指定商品为“空气净化器”（归属电子产品），用户为普通用户。系统从规则树根节点开始匹配：（1）判断商品类别为“电子产品”，进入对应分支。（2）判断用户等级为“普通用户”，匹配到规则A。（3）返回结果：该用户需3人成团，享受9折优惠。</li>
+</ul>
+</li>
+<li>
+<pre><code class="hljs">假设某电商平台提供以下拼团规则：
+规则A ：普通用户拼团购买“电子产品”时，需3人成团，享受9折优惠。
+规则B ：VIP用户拼团购买“家居用品”时，需2人成团，享受8.5折优惠。
+规则C ：特定节假日（如双十一）期间，所有用户拼团购买任意商品，只需2人成团，享受8折优惠。
+
+规则树设计为：
+根节点：用户发起拼团请求
+├── 商品类别 = 电子产品
+│   ├── 用户等级 = 普通用户 → 规则A（3人成团，9折）
+│   └── 用户等级 = VIP用户 → 不适用
+├── 商品类别 = 家居用品
+│   ├── 用户等级 = 普通用户 → 不适用
+│   └── 用户等级 = VIP用户 → 规则B（2人成团，8.5折）
+└── 当前时间 = 特定节假日 → 规则C（2人成团，8折）
+<figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><code class="hljs angelscript"><br>- <br><br># <span class="hljs-number">2</span>、责任链的作用<br><br>在某些情况下，请求可能需要经过多个步骤或<span class="hljs-keyword">if</span>-<span class="hljs-keyword">else</span>条件判断才能被处理。责任链模式将这些复杂的逻辑分解为多个独立的处理单元，每个单元只关注自己的职责，从而降低了代码的复杂性。<br><br>在实际开发场景中，需要根据不同的业务模型定义不同的责任链。在拼团商城中，可以定义两个链节点进行过滤，**节点<span class="hljs-number">1</span>**校验活动起止时间（防止活动过期或未开始）；**节点<span class="hljs-number">2</span>**校验用户参与次数（防止用户多次参与薅羊毛）。<br><br><br><br># <span class="hljs-number">3</span>、实现<br><br>逻辑处理器：用于执行当前节点的业务逻辑<br><br>```Java<br><span class="hljs-keyword">public</span> <span class="hljs-keyword">interface</span> <span class="hljs-symbol">ILogicHandler</span>&lt;<span class="hljs-symbol">T</span>,<span class="hljs-symbol">D</span>,<span class="hljs-symbol">R</span>&gt; &#123;<br>    <span class="hljs-comment">// 执行本节点的业务逻辑</span><br>    R apply(T requestParameter, D dynamicContext) throws Exception;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+</code></pre>
+</li>
+</ul>
+<p>链路装配器：把传入的多个<code>ILogicHandler节点</code>组装成<code>logicLink链表</code></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs Java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">LinkArmory</span>&lt;T,D,R&gt; &#123;<br><br>    <span class="hljs-keyword">public</span> <span class="hljs-title function_">LinkArmory</span><span class="hljs-params">(String linkName, ILogicHandler&lt;T,D,R&gt;... logicHandlers)</span>&#123;<br>        logicLink = <span class="hljs-keyword">new</span> <span class="hljs-title class_">BusinessLinkedList</span>&lt;&gt;(linkName);<br>        <span class="hljs-keyword">for</span>(ILogicHandler&lt;T,D,R&gt; logicHandler: logicHandlers)&#123;<br>            logicLink.add(logicHandler);<br>        &#125;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>业务链路：执行当前节点逻辑，完成后跳转下一个节点。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs Java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">BusinessLinkedList</span>&lt;T,D,R&gt; <span class="hljs-keyword">extends</span> <span class="hljs-title class_">LinkedList</span>&lt;ILogicHandler&lt;T,D,R&gt;&gt; <span class="hljs-keyword">implements</span> <span class="hljs-title class_">ILogicHandler</span>&lt;T,D,R&gt; &#123;<br><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">public</span> R <span class="hljs-title function_">apply</span><span class="hljs-params">(T requestParameter, D dynamicContext)</span> <span class="hljs-keyword">throws</span> Exception &#123;<br><br>        Node&lt;ILogicHandler&lt;T,D,R&gt;&gt; current = <span class="hljs-built_in">this</span>.first;<br>        <span class="hljs-keyword">do</span>&#123;<br>            ILogicHandler&lt;T,D,R&gt; itemHandler = current.item;<br>            <span class="hljs-comment">// 执行当前节点逻辑</span><br>            <span class="hljs-type">R</span> <span class="hljs-variable">apply</span> <span class="hljs-operator">=</span> itemHandler.apply(requestParameter, dynamicContext);<br>            <span class="hljs-comment">// 跳转下一节点</span><br>            current = current.next;<br>        &#125; <span class="hljs-keyword">while</span>(current != <span class="hljs-literal">null</span>);<br><br>        <span class="hljs-keyword">return</span> <span class="hljs-literal">null</span>;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>责任链工厂：构造责任链。定义了一条由<code>node1</code>和<code>node2</code>串联的名为<code>link01</code>责任链。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs Java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">RuleFactory</span> &#123;<br>    <span class="hljs-meta">@Bean(&quot;link01&quot;)</span><br>    <span class="hljs-keyword">public</span> BusinessLinkedList&lt;T,D,R&gt; <span class="hljs-title function_">demo01</span><span class="hljs-params">(Node1 node1, Node2 node2)</span> &#123;<br>        LinkArmory&lt;T,D,R&gt; linkArmory = <span class="hljs-keyword">new</span> <span class="hljs-title class_">LinkArmory</span>&lt;&gt;(<span class="hljs-string">&quot;link01&quot;</span>, node1, node2);<br>        <span class="hljs-keyword">return</span> linkArmory;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>执行责任链</p>
+<figure class="highlight abnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs abnf">R ruleLink <span class="hljs-operator">=</span> new RuleFactory()<span class="hljs-comment">;</span><br>ruleLink.apply()<span class="hljs-comment">;</span><br></code></pre></td></tr></table></figure>
 
                 
               </div>
@@ -380,8 +406,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>项目重点-基于Redis实现具有降级+切量功能的动态配置中心</div>
-      <div>http://example.com/2025/03/07/项目重点-基于Redis实现具有降级-切量功能的动态配置中心/</div>
+      <div>项目重点-责任链</div>
+      <div>http://example.com/2025/03/12/项目重点-责任链/</div>
     </div>
     <div class="license-meta">
       
@@ -393,7 +419,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2025年3月7日</div>
+          <div>2025年3月12日</div>
         </div>
       
       
@@ -425,18 +451,12 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2025/03/12/%E9%A1%B9%E7%9B%AE%E9%87%8D%E7%82%B9-%E8%B4%A3%E4%BB%BB%E9%93%BE/" title="项目重点-责任链">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">项目重点-责任链</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2025/02/28/%E9%A1%B9%E7%9B%AE%E6%8E%92%E6%9F%A5-%E8%A7%84%E5%88%99%E6%A0%91%E9%80%92%E5%BD%92%E5%A4%B1%E8%B4%A5%E5%AF%BC%E8%87%B4%E7%BB%93%E6%9E%9C%E4%B8%BAnull/" title="项目排查 | 规则树递归失败导致结果为null">
-                        <span class="hidden-mobile">项目排查 | 规则树递归失败导致结果为null</span>
+                      <a href="/2025/03/07/%E9%A1%B9%E7%9B%AE%E9%87%8D%E7%82%B9-%E5%9F%BA%E4%BA%8ERedis%E5%AE%9E%E7%8E%B0%E5%85%B7%E6%9C%89%E9%99%8D%E7%BA%A7-%E5%88%87%E9%87%8F%E5%8A%9F%E8%83%BD%E7%9A%84%E5%8A%A8%E6%80%81%E9%85%8D%E7%BD%AE%E4%B8%AD%E5%BF%83/" title="项目重点-基于Redis实现具有降级+切量功能的动态配置中心">
+                        <span class="hidden-mobile">项目重点-基于Redis实现具有降级+切量功能的动态配置中心</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
