@@ -21,15 +21,15 @@
   <meta name="author" content="huangbr">
   <meta name="keywords" content="">
   
-    <meta name="description" content="在拼团商城中，需要通过责任链来定义交易规则。 1、责任链和规则树的区别   责任链：处理者之间通过单向引用形成一条链，每个处理者只关心自己的逻辑，处理完成后决定是否继续传递请求。    订单校验 ：在一个电商系统中，用户下单前需要进行多步校验（如库存检查[链节点1]、权限验证[链节点2]、支付方式验证[链节点3]等），这些校验可以通过责任链实现。    规则树：是一种基于树形结构的设计模式，用于表">
+    <meta name="description" content="在拼团商城中，需要通过责任链来定义交易规则。 1、责任链和规则树的区别   责任链：处理者之间通过单向引用形成一条链，每个处理者只关心自己的逻辑，处理完成后决定是否继续传递请求。  订单校验 ：在一个电商系统中，用户下单前需要进行多步校验（如库存检查[链节点1]、权限验证[链节点2]、支付方式验证[链节点3]等），这些校验可以通过责任链实现。    规则树：是一种基于树形结构的设计模式，用于表达复">
 <meta property="og:type" content="article">
 <meta property="og:title" content="项目重点-责任链">
 <meta property="og:url" content="http://example.com/2025/03/12/%E9%A1%B9%E7%9B%AE%E9%87%8D%E7%82%B9-%E8%B4%A3%E4%BB%BB%E9%93%BE/index.html">
 <meta property="og:site_name" content="堆栈空间">
-<meta property="og:description" content="在拼团商城中，需要通过责任链来定义交易规则。 1、责任链和规则树的区别   责任链：处理者之间通过单向引用形成一条链，每个处理者只关心自己的逻辑，处理完成后决定是否继续传递请求。    订单校验 ：在一个电商系统中，用户下单前需要进行多步校验（如库存检查[链节点1]、权限验证[链节点2]、支付方式验证[链节点3]等），这些校验可以通过责任链实现。    规则树：是一种基于树形结构的设计模式，用于表">
+<meta property="og:description" content="在拼团商城中，需要通过责任链来定义交易规则。 1、责任链和规则树的区别   责任链：处理者之间通过单向引用形成一条链，每个处理者只关心自己的逻辑，处理完成后决定是否继续传递请求。  订单校验 ：在一个电商系统中，用户下单前需要进行多步校验（如库存检查[链节点1]、权限验证[链节点2]、支付方式验证[链节点3]等），这些校验可以通过责任链实现。    规则树：是一种基于树形结构的设计模式，用于表达复">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2025-03-12T08:35:15.000Z">
-<meta property="article:modified_time" content="2025-03-12T08:57:16.833Z">
+<meta property="article:modified_time" content="2025-03-12T09:01:40.199Z">
 <meta property="article:author" content="huangbr">
 <meta property="article:tag" content="拼团商城">
 <meta name="twitter:card" content="summary_large_image">
@@ -319,48 +319,42 @@
 <ul>
 <li>
 <p>责任链：处理者之间通过单向引用形成一条链，每个处理者只关心自己的逻辑，处理完成后决定是否继续传递请求。</p>
-</li>
-<li>
 <ul>
 <li><strong>订单校验</strong> ：在一个电商系统中，用户下单前需要进行多步校验（如库存检查[链节点1]、权限验证[链节点2]、支付方式验证[链节点3]等），这些校验可以通过责任链实现。</li>
 </ul>
 </li>
 <li>
 <p>规则树：是一种基于树形结构的设计模式，用于表达复杂的条件判断逻辑，每个节点表示一个条件判断，叶子节点表示最终的处理结果。</p>
-</li>
-<li>
 <ul>
 <li><strong>例子</strong>：用户发起拼团请求，指定商品为“空气净化器”（归属电子产品），用户为普通用户。系统从规则树根节点开始匹配：（1）判断商品类别为“电子产品”，进入对应分支。（2）判断用户等级为“普通用户”，匹配到规则A。（3）返回结果：该用户需3人成团，享受9折优惠。</li>
 </ul>
-</li>
-<li>
-<pre><code class="hljs">假设某电商平台提供以下拼团规则：
-规则A ：普通用户拼团购买“电子产品”时，需3人成团，享受9折优惠。
-规则B ：VIP用户拼团购买“家居用品”时，需2人成团，享受8.5折优惠。
-规则C ：特定节假日（如双十一）期间，所有用户拼团购买任意商品，只需2人成团，享受8折优惠。
-
-规则树设计为：
-根节点：用户发起拼团请求
-├── 商品类别 = 电子产品
-│   ├── 用户等级 = 普通用户 → 规则A（3人成团，9折）
-│   └── 用户等级 = VIP用户 → 不适用
-├── 商品类别 = 家居用品
-│   ├── 用户等级 = 普通用户 → 不适用
-│   └── 用户等级 = VIP用户 → 规则B（2人成团，8.5折）
-└── 当前时间 = 特定节假日 → 规则C（2人成团，8折）
-
-</code></pre>
+<figure class="highlight abnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs abnf">假设某电商平台提供以下拼团规则：<br>规则A ：普通用户拼团购买“电子产品”时，需<span class="hljs-number">3</span>人成团，享受<span class="hljs-number">9</span>折优惠。<br>规则B ：VIP用户拼团购买“家居用品”时，需<span class="hljs-number">2</span>人成团，享受<span class="hljs-number">8.5</span>折优惠。<br>规则C ：特定节假日（如双十一）期间，所有用户拼团购买任意商品，只需<span class="hljs-number">2</span>人成团，享受<span class="hljs-number">8</span>折优惠。<br><br>规则树设计为：<br>根节点：用户发起拼团请求<br>├── 商品类别 <span class="hljs-operator">=</span> 电子产品<br>│   ├── 用户等级 <span class="hljs-operator">=</span> 普通用户 → 规则A（<span class="hljs-number">3</span>人成团，<span class="hljs-number">9</span>折）<br>│   └── 用户等级 <span class="hljs-operator">=</span> VIP用户 → 不适用<br>├── 商品类别 <span class="hljs-operator">=</span> 家居用品<br>│   ├── 用户等级 <span class="hljs-operator">=</span> 普通用户 → 不适用<br>│   └── 用户等级 <span class="hljs-operator">=</span> VIP用户 → 规则B（<span class="hljs-number">2</span>人成团，<span class="hljs-number">8.5</span>折）<br>└── 当前时间 <span class="hljs-operator">=</span> 特定节假日 → 规则C（<span class="hljs-number">2</span>人成团，<span class="hljs-number">8</span>折）<br></code></pre></td></tr></table></figure>
 </li>
 </ul>
-<figure class="highlight angelscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><code class="hljs angelscript">  <br><br><br><br><br><br><br><br># <span class="hljs-number">2</span>、责任链的作用<br><br>在某些情况下，请求可能需要经过多个步骤或<span class="hljs-keyword">if</span>-<span class="hljs-keyword">else</span>条件判断才能被处理。责任链模式将这些复杂的逻辑分解为多个独立的处理单元，每个单元只关注自己的职责，从而降低了代码的复杂性。<br><br>在实际开发场景中，需要根据不同的业务模型定义不同的责任链。在拼团商城中，可以定义两个链节点进行过滤，**节点<span class="hljs-number">1</span>**校验活动起止时间（防止活动过期或未开始）；**节点<span class="hljs-number">2</span>**校验用户参与次数（防止用户多次参与薅羊毛）。<br><br><br><br><br><br># <span class="hljs-number">3</span>、实现<br><br>逻辑处理器：用于执行当前节点的业务逻辑<br><br>```Java<br><span class="hljs-keyword">public</span> <span class="hljs-keyword">interface</span> <span class="hljs-symbol">ILogicHandler</span>&lt;<span class="hljs-symbol">T</span>,<span class="hljs-symbol">D</span>,<span class="hljs-symbol">R</span>&gt; &#123;<br>    <span class="hljs-comment">// 执行本节点的业务逻辑</span><br>    R apply(T requestParameter, D dynamicContext) throws Exception;<br>&#125;<br></code></pre></td></tr></table></figure>
-<p>链路装配器：把传入的多个<code>ILogicHandler节点</code>组装成<code>logicLink链表</code></p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs Java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">LinkArmory</span>&lt;T,D,R&gt; &#123;<br><br>    <span class="hljs-keyword">public</span> <span class="hljs-title function_">LinkArmory</span><span class="hljs-params">(String linkName, ILogicHandler&lt;T,D,R&gt;... logicHandlers)</span>&#123;<br>        logicLink = <span class="hljs-keyword">new</span> <span class="hljs-title class_">BusinessLinkedList</span>&lt;&gt;(linkName);<br>        <span class="hljs-keyword">for</span>(ILogicHandler&lt;T,D,R&gt; logicHandler: logicHandlers)&#123;<br>            logicLink.add(logicHandler);<br>        &#125;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
-<p>业务链路：执行当前节点逻辑，完成后跳转下一个节点。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs Java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">BusinessLinkedList</span>&lt;T,D,R&gt; <span class="hljs-keyword">extends</span> <span class="hljs-title class_">LinkedList</span>&lt;ILogicHandler&lt;T,D,R&gt;&gt; <span class="hljs-keyword">implements</span> <span class="hljs-title class_">ILogicHandler</span>&lt;T,D,R&gt; &#123;<br><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">public</span> R <span class="hljs-title function_">apply</span><span class="hljs-params">(T requestParameter, D dynamicContext)</span> <span class="hljs-keyword">throws</span> Exception &#123;<br><br>        Node&lt;ILogicHandler&lt;T,D,R&gt;&gt; current = <span class="hljs-built_in">this</span>.first;<br>        <span class="hljs-keyword">do</span>&#123;<br>            ILogicHandler&lt;T,D,R&gt; itemHandler = current.item;<br>            <span class="hljs-comment">// 执行当前节点逻辑</span><br>            <span class="hljs-type">R</span> <span class="hljs-variable">apply</span> <span class="hljs-operator">=</span> itemHandler.apply(requestParameter, dynamicContext);<br>            <span class="hljs-comment">// 跳转下一节点</span><br>            current = current.next;<br>        &#125; <span class="hljs-keyword">while</span>(current != <span class="hljs-literal">null</span>);<br><br>        <span class="hljs-keyword">return</span> <span class="hljs-literal">null</span>;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
-<p>责任链工厂：构造责任链。定义了一条由<code>node1</code>和<code>node2</code>串联的名为<code>link01</code>责任链。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs Java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">RuleFactory</span> &#123;<br>    <span class="hljs-meta">@Bean(&quot;link01&quot;)</span><br>    <span class="hljs-keyword">public</span> BusinessLinkedList&lt;T,D,R&gt; <span class="hljs-title function_">demo01</span><span class="hljs-params">(Node1 node1, Node2 node2)</span> &#123;<br>        LinkArmory&lt;T,D,R&gt; linkArmory = <span class="hljs-keyword">new</span> <span class="hljs-title class_">LinkArmory</span>&lt;&gt;(<span class="hljs-string">&quot;link01&quot;</span>, node1, node2);<br>        <span class="hljs-keyword">return</span> linkArmory;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
-<p>执行责任链</p>
-<figure class="highlight abnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs abnf">R ruleLink <span class="hljs-operator">=</span> new RuleFactory()<span class="hljs-comment">;</span><br>ruleLink.apply()<span class="hljs-comment">;</span><br></code></pre></td></tr></table></figure>
+<h1>2、责任链的作用</h1>
+<p>在某些情况下，请求可能需要经过多个步骤或if-else条件判断才能被处理。责任链模式将这些复杂的逻辑分解为多个独立的处理单元，每个单元只关注自己的职责，从而降低了代码的复杂性。</p>
+<p>在实际开发场景中，需要根据不同的业务模型定义不同的责任链。在拼团商城中，可以定义两个链节点进行过滤，<strong>节点1</strong>校验活动起止时间（防止活动过期或未开始）；<strong>节点2</strong>校验用户参与次数（防止用户多次参与薅羊毛）。</p>
+<h1>3、实现</h1>
+<ul>
+<li>逻辑处理器：用于执行当前节点的业务逻辑</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">interface</span> <span class="hljs-title class_">ILogicHandler</span>&lt;T,D,R&gt; &#123;<br>    <span class="hljs-comment">// 执行本节点的业务逻辑</span><br>    R <span class="hljs-title function_">apply</span><span class="hljs-params">(T requestParameter, D dynamicContext)</span> <span class="hljs-keyword">throws</span> Exception;<br>&#125;<br></code></pre></td></tr></table></figure>
+<ul>
+<li>链路装配器：把传入的多个<code>ILogicHandler节点</code>组装成<code>logicLink链表</code></li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">LinkArmory</span>&lt;T,D,R&gt; &#123;<br><br>    <span class="hljs-keyword">public</span> <span class="hljs-title function_">LinkArmory</span><span class="hljs-params">(String linkName, ILogicHandler&lt;T,D,R&gt;... logicHandlers)</span>&#123;<br>        logicLink = <span class="hljs-keyword">new</span> <span class="hljs-title class_">BusinessLinkedList</span>&lt;&gt;(linkName);<br>        <span class="hljs-keyword">for</span>(ILogicHandler&lt;T,D,R&gt; logicHandler: logicHandlers)&#123;<br>            logicLink.add(logicHandler);<br>        &#125;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<ul>
+<li>业务链路：执行当前节点逻辑，完成后跳转下一个节点。</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">BusinessLinkedList</span>&lt;T,D,R&gt; <span class="hljs-keyword">extends</span> <span class="hljs-title class_">LinkedList</span>&lt;ILogicHandler&lt;T,D,R&gt;&gt; <span class="hljs-keyword">implements</span> <span class="hljs-title class_">ILogicHandler</span>&lt;T,D,R&gt; &#123;<br><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">public</span> R <span class="hljs-title function_">apply</span><span class="hljs-params">(T requestParameter, D dynamicContext)</span> <span class="hljs-keyword">throws</span> Exception &#123;<br><br>        Node&lt;ILogicHandler&lt;T,D,R&gt;&gt; current = <span class="hljs-built_in">this</span>.first;<br>        <span class="hljs-keyword">do</span>&#123;<br>            ILogicHandler&lt;T,D,R&gt; itemHandler = current.item;<br>            <span class="hljs-comment">// 执行当前节点逻辑</span><br>            <span class="hljs-type">R</span> <span class="hljs-variable">apply</span> <span class="hljs-operator">=</span> itemHandler.apply(requestParameter, dynamicContext);<br>            <span class="hljs-comment">// 跳转下一节点</span><br>            current = current.next;<br>        &#125; <span class="hljs-keyword">while</span>(current != <span class="hljs-literal">null</span>);<br><br>        <span class="hljs-keyword">return</span> <span class="hljs-literal">null</span>;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<ul>
+<li>责任链工厂：构造责任链。定义了一条由<code>node1</code>和<code>node2</code>串联的名为<code>link01</code>责任链。</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">RuleFactory</span> &#123;<br>    <span class="hljs-meta">@Bean(&quot;link01&quot;)</span><br>    <span class="hljs-keyword">public</span> BusinessLinkedList&lt;T,D,R&gt; <span class="hljs-title function_">demo01</span><span class="hljs-params">(Node1 node1, Node2 node2)</span> &#123;<br>        LinkArmory&lt;T,D,R&gt; linkArmory = <span class="hljs-keyword">new</span> <span class="hljs-title class_">LinkArmory</span>&lt;&gt;(<span class="hljs-string">&quot;link01&quot;</span>, node1, node2);<br>        <span class="hljs-keyword">return</span> linkArmory;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<ul>
+<li>执行责任链</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-type">R</span> <span class="hljs-variable">ruleLink</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">RuleFactory</span>();<br>ruleLink.apply();<br></code></pre></td></tr></table></figure>
 
                 
               </div>
