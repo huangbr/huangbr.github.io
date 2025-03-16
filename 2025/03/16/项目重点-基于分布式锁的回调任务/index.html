@@ -21,15 +21,15 @@
   <meta name="author" content="huangbr">
   <meta name="keywords" content="">
   
-    <meta name="description" content="在拼团商城中，需要通过责任链来定义交易规则。 1、责任链和规则树的区别   责任链：处理者之间通过单向引用形成一条链，每个处理者只关心自己的逻辑，处理完成后决定是否继续传递请求。  订单校验 ：在一个电商系统中，用户下单前需要进行多步校验（如库存检查[链节点1]、权限验证[链节点2]、支付方式验证[链节点3]等），这些校验可以通过责任链实现。    规则树：是一种基于树形结构的设计模式，用于表达复">
+    <meta name="description" content="当拼团队伍成员均支付成功后，拼团成团，拼团系统需要向其他微服务发送回调通知，便于进入下一流程。 1.分布式锁为了实现负载均衡且防止单点故障，一般拼团服务会被部署到多台服务器上，那么就会有很多回调任务一起执行，这个时候要对回调任务进行抢占，避免同一个任务被多次执行，因此这里用Redisson实现分布式锁来解决这个问题。 1234567891011121314151617181920212223242">
 <meta property="og:type" content="article">
-<meta property="og:title" content="项目重点-责任链">
-<meta property="og:url" content="http://example.com/2025/03/12/%E9%A1%B9%E7%9B%AE%E9%87%8D%E7%82%B9-%E8%B4%A3%E4%BB%BB%E9%93%BE/index.html">
+<meta property="og:title" content="项目重点-基于分布式锁的回调任务">
+<meta property="og:url" content="http://example.com/2025/03/16/%E9%A1%B9%E7%9B%AE%E9%87%8D%E7%82%B9-%E5%9F%BA%E4%BA%8E%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81%E7%9A%84%E5%9B%9E%E8%B0%83%E4%BB%BB%E5%8A%A1/index.html">
 <meta property="og:site_name" content="堆栈空间">
-<meta property="og:description" content="在拼团商城中，需要通过责任链来定义交易规则。 1、责任链和规则树的区别   责任链：处理者之间通过单向引用形成一条链，每个处理者只关心自己的逻辑，处理完成后决定是否继续传递请求。  订单校验 ：在一个电商系统中，用户下单前需要进行多步校验（如库存检查[链节点1]、权限验证[链节点2]、支付方式验证[链节点3]等），这些校验可以通过责任链实现。    规则树：是一种基于树形结构的设计模式，用于表达复">
+<meta property="og:description" content="当拼团队伍成员均支付成功后，拼团成团，拼团系统需要向其他微服务发送回调通知，便于进入下一流程。 1.分布式锁为了实现负载均衡且防止单点故障，一般拼团服务会被部署到多台服务器上，那么就会有很多回调任务一起执行，这个时候要对回调任务进行抢占，避免同一个任务被多次执行，因此这里用Redisson实现分布式锁来解决这个问题。 1234567891011121314151617181920212223242">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2025-03-12T08:35:15.000Z">
-<meta property="article:modified_time" content="2025-03-12T09:01:40.199Z">
+<meta property="article:published_time" content="2025-03-16T06:56:42.000Z">
+<meta property="article:modified_time" content="2025-03-16T07:19:54.920Z">
 <meta property="article:author" content="huangbr">
 <meta property="article:tag" content="拼团商城">
 <meta name="twitter:card" content="summary_large_image">
@@ -38,7 +38,7 @@
     <meta name="referrer" content="no-referrer-when-downgrade">
   
   
-  <title>项目重点-责任链 - 堆栈空间</title>
+  <title>项目重点-基于分布式锁的回调任务 - 堆栈空间</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -231,7 +231,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="项目重点-责任链"></span>
+            <span id="subtitle" data-typed-text="项目重点-基于分布式锁的回调任务"></span>
           
         </div>
 
@@ -247,8 +247,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2025-03-12 16:35" pubdate>
-           2025 年 03 月 12 日 , 下午 04:35 , 星期三
+        <time datetime="2025-03-16 14:56" pubdate>
+           2025 年 03 月 16 日 , 下午 02:56 , 星期日
         </time>
       </span>
     
@@ -260,7 +260,7 @@
         <i class="iconfont icon-chart"></i>
         
           <!-- compatible with older versions-->
-          957 字
+          365 字
         
       </span>
     
@@ -272,7 +272,7 @@
         
         
           <!-- compatible with older versions-->
-          8 分钟
+          4 分钟
         
       </span>
     
@@ -309,52 +309,23 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">项目重点-责任链</h1>
+            <h1 id="seo-header">项目重点-基于分布式锁的回调任务</h1>
             
             
               <div class="markdown-body">
                 
-                <p>在拼团商城中，需要通过责任链来定义交易规则。</p>
-<h1>1、责任链和规则树的区别</h1>
-<ul>
-<li>
-<p>责任链：处理者之间通过单向引用形成一条链，每个处理者只关心自己的逻辑，处理完成后决定是否继续传递请求。</p>
-<ul>
-<li><strong>订单校验</strong> ：在一个电商系统中，用户下单前需要进行多步校验（如库存检查[链节点1]、权限验证[链节点2]、支付方式验证[链节点3]等），这些校验可以通过责任链实现。</li>
-</ul>
-</li>
-<li>
-<p>规则树：是一种基于树形结构的设计模式，用于表达复杂的条件判断逻辑，每个节点表示一个条件判断，叶子节点表示最终的处理结果。</p>
-<ul>
-<li><strong>例子</strong>：用户发起拼团请求，指定商品为“空气净化器”（归属电子产品），用户为普通用户。系统从规则树根节点开始匹配：（1）判断商品类别为“电子产品”，进入对应分支。（2）判断用户等级为“普通用户”，匹配到规则A。（3）返回结果：该用户需3人成团，享受9折优惠。</li>
-</ul>
-<figure class="highlight abnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs abnf">假设某电商平台提供以下拼团规则：<br>规则A ：普通用户拼团购买“电子产品”时，需<span class="hljs-number">3</span>人成团，享受<span class="hljs-number">9</span>折优惠。<br>规则B ：VIP用户拼团购买“家居用品”时，需<span class="hljs-number">2</span>人成团，享受<span class="hljs-number">8.5</span>折优惠。<br>规则C ：特定节假日（如双十一）期间，所有用户拼团购买任意商品，只需<span class="hljs-number">2</span>人成团，享受<span class="hljs-number">8</span>折优惠。<br><br>规则树设计为：<br>根节点：用户发起拼团请求<br>├── 商品类别 <span class="hljs-operator">=</span> 电子产品<br>│   ├── 用户等级 <span class="hljs-operator">=</span> 普通用户 → 规则A（<span class="hljs-number">3</span>人成团，<span class="hljs-number">9</span>折）<br>│   └── 用户等级 <span class="hljs-operator">=</span> VIP用户 → 不适用<br>├── 商品类别 <span class="hljs-operator">=</span> 家居用品<br>│   ├── 用户等级 <span class="hljs-operator">=</span> 普通用户 → 不适用<br>│   └── 用户等级 <span class="hljs-operator">=</span> VIP用户 → 规则B（<span class="hljs-number">2</span>人成团，<span class="hljs-number">8.5</span>折）<br>└── 当前时间 <span class="hljs-operator">=</span> 特定节假日 → 规则C（<span class="hljs-number">2</span>人成团，<span class="hljs-number">8</span>折）<br></code></pre></td></tr></table></figure>
-</li>
-</ul>
-<h1>2、责任链的作用</h1>
-<p>在某些情况下，请求可能需要经过多个步骤或if-else条件判断才能被处理。责任链模式将这些复杂的逻辑分解为多个独立的处理单元，每个单元只关注自己的职责，从而降低了代码的复杂性。</p>
-<p>在实际开发场景中，需要根据不同的业务模型定义不同的责任链。在拼团商城中，可以定义两个链节点进行过滤，<strong>节点1</strong>校验活动起止时间（防止活动过期或未开始）；<strong>节点2</strong>校验用户参与次数（防止用户多次参与薅羊毛）。</p>
-<h1>3、实现</h1>
-<ul>
-<li>逻辑处理器：用于执行当前节点的业务逻辑</li>
-</ul>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">interface</span> <span class="hljs-title class_">ILogicHandler</span>&lt;T,D,R&gt; &#123;<br>    <span class="hljs-comment">// 执行本节点的业务逻辑</span><br>    R <span class="hljs-title function_">apply</span><span class="hljs-params">(T requestParameter, D dynamicContext)</span> <span class="hljs-keyword">throws</span> Exception;<br>&#125;<br></code></pre></td></tr></table></figure>
-<ul>
-<li>链路装配器：把传入的多个<code>ILogicHandler节点</code>组装成<code>logicLink链表</code></li>
-</ul>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">LinkArmory</span>&lt;T,D,R&gt; &#123;<br><br>    <span class="hljs-keyword">public</span> <span class="hljs-title function_">LinkArmory</span><span class="hljs-params">(String linkName, ILogicHandler&lt;T,D,R&gt;... logicHandlers)</span>&#123;<br>        logicLink = <span class="hljs-keyword">new</span> <span class="hljs-title class_">BusinessLinkedList</span>&lt;&gt;(linkName);<br>        <span class="hljs-keyword">for</span>(ILogicHandler&lt;T,D,R&gt; logicHandler: logicHandlers)&#123;<br>            logicLink.add(logicHandler);<br>        &#125;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
-<ul>
-<li>业务链路：执行当前节点逻辑，完成后跳转下一个节点。</li>
-</ul>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">BusinessLinkedList</span>&lt;T,D,R&gt; <span class="hljs-keyword">extends</span> <span class="hljs-title class_">LinkedList</span>&lt;ILogicHandler&lt;T,D,R&gt;&gt; <span class="hljs-keyword">implements</span> <span class="hljs-title class_">ILogicHandler</span>&lt;T,D,R&gt; &#123;<br><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">public</span> R <span class="hljs-title function_">apply</span><span class="hljs-params">(T requestParameter, D dynamicContext)</span> <span class="hljs-keyword">throws</span> Exception &#123;<br><br>        Node&lt;ILogicHandler&lt;T,D,R&gt;&gt; current = <span class="hljs-built_in">this</span>.first;<br>        <span class="hljs-keyword">do</span>&#123;<br>            ILogicHandler&lt;T,D,R&gt; itemHandler = current.item;<br>            <span class="hljs-comment">// 执行当前节点逻辑</span><br>            <span class="hljs-type">R</span> <span class="hljs-variable">apply</span> <span class="hljs-operator">=</span> itemHandler.apply(requestParameter, dynamicContext);<br>            <span class="hljs-comment">// 跳转下一节点</span><br>            current = current.next;<br>        &#125; <span class="hljs-keyword">while</span>(current != <span class="hljs-literal">null</span>);<br><br>        <span class="hljs-keyword">return</span> <span class="hljs-literal">null</span>;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
-<ul>
-<li>责任链工厂：构造责任链。定义了一条由<code>node1</code>和<code>node2</code>串联的名为<code>link01</code>责任链。</li>
-</ul>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">RuleFactory</span> &#123;<br>    <span class="hljs-meta">@Bean(&quot;link01&quot;)</span><br>    <span class="hljs-keyword">public</span> BusinessLinkedList&lt;T,D,R&gt; <span class="hljs-title function_">demo01</span><span class="hljs-params">(Node1 node1, Node2 node2)</span> &#123;<br>        LinkArmory&lt;T,D,R&gt; linkArmory = <span class="hljs-keyword">new</span> <span class="hljs-title class_">LinkArmory</span>&lt;&gt;(<span class="hljs-string">&quot;link01&quot;</span>, node1, node2);<br>        <span class="hljs-keyword">return</span> linkArmory;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
-<ul>
-<li>执行责任链</li>
-</ul>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-type">R</span> <span class="hljs-variable">ruleLink</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">RuleFactory</span>();<br>ruleLink.apply();<br></code></pre></td></tr></table></figure>
+                <p>当拼团队伍成员均支付成功后，拼团成团，拼团系统需要向其他微服务发送回调通知，便于进入下一流程。</p>
+<h2 id="1-分布式锁"><a href="#1-分布式锁" class="headerlink" title="1.分布式锁"></a>1.分布式锁</h2><p>为了实现负载均衡且防止单点故障，一般拼团服务会被部署到多台服务器上，那么就会有很多回调任务一起执行，这个时候要对回调任务进行抢占，避免同一个任务被多次执行，因此这里用<strong>Redisson实现分布式锁</strong>来解决这个问题。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">NotifyTask</span> &#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">(String[] args)</span> &#123;<br>        <span class="hljs-comment">// 初始化 RedissonClient</span><br>        <span class="hljs-type">RedissonClient</span> <span class="hljs-variable">redissonClient</span> <span class="hljs-operator">=</span> RedissonConfig.createRedissonClient();<br><br>        <span class="hljs-comment">// 获取锁对象</span><br>        <span class="hljs-type">RLock</span> <span class="hljs-variable">lock</span> <span class="hljs-operator">=</span> redissonClient.getLock(<span class="hljs-string">&quot;myLock&quot;</span>+teamId);<br><br>        <span class="hljs-keyword">try</span> &#123;<br>            <span class="hljs-comment">// 尝试加锁，最多等待3秒，锁持有时间1秒</span><br>            <span class="hljs-type">boolean</span> <span class="hljs-variable">isLocked</span> <span class="hljs-operator">=</span> lock.tryLock(<span class="hljs-number">3</span>, <span class="hljs-number">1</span>, TimeUnit.SECONDS);<br>            <span class="hljs-keyword">if</span> (isLocked) &#123;<br>                System.out.println(<span class="hljs-string">&quot;成功获取锁，执行回调任务...&quot;</span>);<br>            &#125; <span class="hljs-keyword">else</span> &#123;<br>                System.out.println(<span class="hljs-string">&quot;未能获取锁，放弃执行回调任务...&quot;</span>);<br>            &#125;<br>        &#125; <span class="hljs-keyword">catch</span> (InterruptedException e) &#123;<br>            e.printStackTrace();<br>        &#125; <span class="hljs-keyword">finally</span> &#123;<br>            <span class="hljs-comment">// 释放锁</span><br>            <span class="hljs-keyword">if</span> (lock.isHeldByCurrentThread()) &#123;<br>                lock.unlock();<br>                System.out.println(<span class="hljs-string">&quot;锁已释放...&quot;</span>);<br>            &#125;<br>        &#125;<br>        redissonClient.shutdown();<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+
+
+<h2 id="2-定时任务"><a href="#2-定时任务" class="headerlink" title="2.定时任务"></a>2.定时任务</h2><p>使用<code>@Scheduled</code>注解配置定时任务</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@Component</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">GroupBuyNotifyTask</span> &#123;<br>    <span class="hljs-meta">@Scheduled(cron = &quot;0/15 * * * * ?&quot;)</span> <span class="hljs-comment">// 每 15 秒执行一次</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">handleGroupBuyCallback</span><span class="hljs-params">()</span> &#123;<br>        System.out.println(<span class="hljs-string">&quot;处理拼团回调任务...&quot;</span>);<br>        <span class="hljs-comment">// 1.查询待执行的回调任务(未回调的、需要重新回调的任务)</span><br>        <span class="hljs-comment">// 2.执行回调通知</span><br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+
+
+<h2 id="3-发送回调请求"><a href="#3-发送回调请求" class="headerlink" title="3.发送回调请求"></a>3.发送回调请求</h2><p>发送者基于<code>OkHttp</code>来向接收者发送回调信息。</p>
 
                 
               </div>
@@ -400,8 +371,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>项目重点-责任链</div>
-      <div>http://example.com/2025/03/12/项目重点-责任链/</div>
+      <div>项目重点-基于分布式锁的回调任务</div>
+      <div>http://example.com/2025/03/16/项目重点-基于分布式锁的回调任务/</div>
     </div>
     <div class="license-meta">
       
@@ -413,7 +384,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2025年3月12日</div>
+          <div>2025年3月16日</div>
         </div>
       
       
@@ -445,18 +416,12 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2025/03/16/%E9%A1%B9%E7%9B%AE%E9%87%8D%E7%82%B9-%E5%9F%BA%E4%BA%8E%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81%E7%9A%84%E5%9B%9E%E8%B0%83%E4%BB%BB%E5%8A%A1/" title="项目重点-基于分布式锁的回调任务">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">项目重点-基于分布式锁的回调任务</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2025/03/07/%E9%A1%B9%E7%9B%AE%E9%87%8D%E7%82%B9-%E5%9F%BA%E4%BA%8ERedis%E5%AE%9E%E7%8E%B0%E5%85%B7%E6%9C%89%E9%99%8D%E7%BA%A7-%E5%88%87%E9%87%8F%E5%8A%9F%E8%83%BD%E7%9A%84%E5%8A%A8%E6%80%81%E9%85%8D%E7%BD%AE%E4%B8%AD%E5%BF%83/" title="项目重点-基于Redis实现具有降级+切量功能的动态配置中心">
-                        <span class="hidden-mobile">项目重点-基于Redis实现具有降级+切量功能的动态配置中心</span>
+                      <a href="/2025/03/12/%E9%A1%B9%E7%9B%AE%E9%87%8D%E7%82%B9-%E8%B4%A3%E4%BB%BB%E9%93%BE/" title="项目重点-责任链">
+                        <span class="hidden-mobile">项目重点-责任链</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>

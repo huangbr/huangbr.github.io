@@ -4,6 +4,31 @@
   
   
   <entry>
+    <title>项目重点-基于分布式锁的回调任务</title>
+    <link href="/2025/03/16/%E9%A1%B9%E7%9B%AE%E9%87%8D%E7%82%B9-%E5%9F%BA%E4%BA%8E%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81%E7%9A%84%E5%9B%9E%E8%B0%83%E4%BB%BB%E5%8A%A1/"/>
+    <url>/2025/03/16/%E9%A1%B9%E7%9B%AE%E9%87%8D%E7%82%B9-%E5%9F%BA%E4%BA%8E%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81%E7%9A%84%E5%9B%9E%E8%B0%83%E4%BB%BB%E5%8A%A1/</url>
+    
+    <content type="html"><![CDATA[<p>当拼团队伍成员均支付成功后，拼团成团，拼团系统需要向其他微服务发送回调通知，便于进入下一流程。</p><h2 id="1-分布式锁"><a href="#1-分布式锁" class="headerlink" title="1.分布式锁"></a>1.分布式锁</h2><p>为了实现负载均衡且防止单点故障，一般拼团服务会被部署到多台服务器上，那么就会有很多回调任务一起执行，这个时候要对回调任务进行抢占，避免同一个任务被多次执行，因此这里用<strong>Redisson实现分布式锁</strong>来解决这个问题。</p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">NotifyTask</span> &#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">(String[] args)</span> &#123;<br>        <span class="hljs-comment">// 初始化 RedissonClient</span><br>        <span class="hljs-type">RedissonClient</span> <span class="hljs-variable">redissonClient</span> <span class="hljs-operator">=</span> RedissonConfig.createRedissonClient();<br><br>        <span class="hljs-comment">// 获取锁对象</span><br>        <span class="hljs-type">RLock</span> <span class="hljs-variable">lock</span> <span class="hljs-operator">=</span> redissonClient.getLock(<span class="hljs-string">&quot;myLock&quot;</span>+teamId);<br><br>        <span class="hljs-keyword">try</span> &#123;<br>            <span class="hljs-comment">// 尝试加锁，最多等待3秒，锁持有时间1秒</span><br>            <span class="hljs-type">boolean</span> <span class="hljs-variable">isLocked</span> <span class="hljs-operator">=</span> lock.tryLock(<span class="hljs-number">3</span>, <span class="hljs-number">1</span>, TimeUnit.SECONDS);<br>            <span class="hljs-keyword">if</span> (isLocked) &#123;<br>                System.out.println(<span class="hljs-string">&quot;成功获取锁，执行回调任务...&quot;</span>);<br>            &#125; <span class="hljs-keyword">else</span> &#123;<br>                System.out.println(<span class="hljs-string">&quot;未能获取锁，放弃执行回调任务...&quot;</span>);<br>            &#125;<br>        &#125; <span class="hljs-keyword">catch</span> (InterruptedException e) &#123;<br>            e.printStackTrace();<br>        &#125; <span class="hljs-keyword">finally</span> &#123;<br>            <span class="hljs-comment">// 释放锁</span><br>            <span class="hljs-keyword">if</span> (lock.isHeldByCurrentThread()) &#123;<br>                lock.unlock();<br>                System.out.println(<span class="hljs-string">&quot;锁已释放...&quot;</span>);<br>            &#125;<br>        &#125;<br>        redissonClient.shutdown();<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure><h2 id="2-定时任务"><a href="#2-定时任务" class="headerlink" title="2.定时任务"></a>2.定时任务</h2><p>使用<code>@Scheduled</code>注解配置定时任务</p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@Component</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">GroupBuyNotifyTask</span> &#123;<br>    <span class="hljs-meta">@Scheduled(cron = &quot;0/15 * * * * ?&quot;)</span> <span class="hljs-comment">// 每 15 秒执行一次</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">handleGroupBuyCallback</span><span class="hljs-params">()</span> &#123;<br>        System.out.println(<span class="hljs-string">&quot;处理拼团回调任务...&quot;</span>);<br>        <span class="hljs-comment">// 1.查询待执行的回调任务(未回调的、需要重新回调的任务)</span><br>        <span class="hljs-comment">// 2.执行回调通知</span><br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure><h2 id="3-发送回调请求"><a href="#3-发送回调请求" class="headerlink" title="3.发送回调请求"></a>3.发送回调请求</h2><p>发送者基于<code>OkHttp</code>来向接收者发送回调信息。</p>]]></content>
+    
+    
+    <categories>
+      
+      <category>项目重点</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>拼团商城</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>项目重点-责任链</title>
     <link href="/2025/03/12/%E9%A1%B9%E7%9B%AE%E9%87%8D%E7%82%B9-%E8%B4%A3%E4%BB%BB%E9%93%BE/"/>
     <url>/2025/03/12/%E9%A1%B9%E7%9B%AE%E9%87%8D%E7%82%B9-%E8%B4%A3%E4%BB%BB%E9%93%BE/</url>
